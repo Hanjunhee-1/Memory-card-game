@@ -3,11 +3,39 @@ const cards = document.querySelectorAll('.card');
 let matchedCard = 0;
 let cardOne, cardTwo;
 let disableDeck = false;
+let score = 0;
+let scoreIncrement = 1;
+let isConsecutive = false;
+let scoreElement = document.querySelector('.score span');
+
+function changeScore() {
+    scoreElement.textContent = score;
+}
+
+function plusScore() {
+    score += scoreIncrement;
+
+    if (isConsecutive) scoreIncrement++;
+    else scoreIncrement = 1;
+
+    isConsecutive = true;
+
+    changeScore();
+}
+
+function minusScore() {
+    scoreIncrement = 1;
+    isConsecutive = false;
+
+    if (score > 0) score -= 1;
+    changeScore();
+}
 
 function matchCards(img1, img2) {
     if (img1 === img2) {
         matchedCard++;
 
+        plusScore();
         if (matchedCard == 8) {
             setTimeout(() => {
                 return shuffleCard();
@@ -18,6 +46,8 @@ function matchCards(img1, img2) {
         cardOne = cardTwo = "";
         return disableDeck = false;
     } 
+
+    minusScore();
 
     setTimeout(() => {
         cardOne.classList.add("shake");
@@ -54,6 +84,10 @@ function flipCard(e) {
 function shuffleCard() {
     matchedCard = 0;
     cardOne = cardTwo = "";
+    score = 0;
+    scoreIncrement = 1;
+    isConsecutive = false;
+    changeScore();
     let arr = [1,2,3,4,5,6,7,8,1,2,3,4,5,6,7,8];
     arr.sort(() => Math.random() > 0.5 ? 1 : -1);
 
