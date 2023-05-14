@@ -45,6 +45,8 @@ body {
 .cards .card .view {
     width: 100%;
     height: 100%;
+    user-select: none;
+    pointer-events: none;
     position: absolute;
     background: #fff;
     border-radius: 7px;
